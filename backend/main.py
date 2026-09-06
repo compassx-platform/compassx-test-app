@@ -63,7 +63,7 @@ def get_metrics(category: Optional[str] = Query(None)):
         MetricItem(
             id="m_1",
             name="Total Throughput",
-            value=142850.0,
+            value=999999.0,
             change_pct=12.4,
             category="Operations",
             unit="req/sec",
@@ -109,7 +109,17 @@ def get_forecast():
         ForecastPoint(period="Jul", actual=None, predicted=28900, lower_bound=27300, upper_bound=30500),
     ]
 
-# Serve static React frontend files if built
+@app.get("/api/analytics/summary", tags=["Analytics"])
+def get_analytics_summary():
+    return {
+        "status": "ok",
+        "total_requests": 999999,
+        "active_models": 12,
+        "system_health": 99.98,
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    }
+
+# Serve static React frontend files if built (must be registered after all /api routes)
 static_dirs = [
     os.path.join(os.path.dirname(__file__), "static"),
     os.path.join(os.path.dirname(__file__), "dist"),
@@ -146,4 +156,6 @@ else:
 if __name__ == "__main__":
     import uvicorn
     port = int(os.getenv("PORT", "8080"))
-    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
+    dev_mode = os.getenv("DEV_MODE", "false").lower() == "true"
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=dev_mode)
+
