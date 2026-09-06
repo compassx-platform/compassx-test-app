@@ -1,16 +1,7 @@
-﻿# Stage 1: Build the React Frontend
-FROM node:20-alpine AS frontend-builder
-WORKDIR /app/frontend
-COPY frontend/package.json ./
-RUN npm install
-COPY frontend/ ./
-RUN npm run build
-
-# Stage 2: Python Runtime with FastAPI & Uvicorn
-FROM python:3.11-slim
+﻿FROM python:3.11-slim
 WORKDIR /app
 
-# Install curl for healthcheck
+# Install curl for container healthcheck
 RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
 
 # Install python requirements
@@ -20,8 +11,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy backend code
 COPY backend/ ./backend
 
-# Copy built frontend assets to backend/dist for static serving
-COPY --from=frontend-builder /app/frontend/dist ./backend/dist
+# Copy static frontend build
+COPY frontend/dist ./frontend/dist
 
 ENV PORT=8080
 EXPOSE 8080
