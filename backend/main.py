@@ -1,9 +1,11 @@
-﻿import os
+import os
 import time
 from datetime import datetime, timezone
 from typing import List, Optional
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 app = FastAPI(
@@ -44,14 +46,6 @@ class ForecastPoint(BaseModel):
     upper_bound: float
 
 _start_time = time.time()
-
-@app.get("/", tags=["Root"])
-def root():
-    return {
-        "message": "Welcome to CompassX Sample Test App API",
-        "docs": "/docs",
-        "health": "/api/health",
-    }
 
 @app.get("/api/health", response_model=HealthStatus, tags=["Health"])
 def health_check():
@@ -115,7 +109,41 @@ def get_forecast():
         ForecastPoint(period="Jul", actual=None, predicted=28900, lower_bound=27300, upper_bound=30500),
     ]
 
+# Serve static React frontend files if built
+static_dirs = [
+    os.path.join(os.path.dirname(__file__), "static"),
+    os.path.join(os.path.dirname(__file__), "dist"),
+    os.path.join(os.path.dirname(__file__), "../frontend/dist"),
+]
+dist_path = None
+for s_dir in static_dirs:
+    if os.path.exists(s_dir) and os.path.exists(os.path.join(s_dir, "index.html")):
+        dist_path = s_dir
+        break
+
+if dist_path:
+    assets_dir = os.path.join(dist_path, "assets")
+    if os.path.exists(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+    @app.get("/{full_path:path}", tags=["Frontend"])
+    def serve_frontend(full_path: str):
+        file_path = os.path.join(dist_path, full_path)
+        if full_path and os.path.exists(file_path) and os.path.isfile(file_path):
+            return FileResponse(file_path)
+        return FileResponse(os.path.join(dist_path, "index.html"))
+else:
+    @app.get("/", tags=["Root"])
+    def root():
+        return {
+            "message": "Welcome to CompassX Sample Test App API",
+            "docs": "/docs",
+            "health": "/api/health",
+            "metrics": "/api/metrics",
+            "forecast": "/api/forecast",
+        }
+
 if __name__ == "__main__":
     import uvicorn
     port = int(os.getenv("PORT", "8080"))
-    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
