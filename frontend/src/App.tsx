@@ -81,7 +81,15 @@ export default function App() {
       {/* Header */}
       <header className="header">
         <div className="header-title">
-          <div style={{ background: '#38bdf8', padding: 8, borderRadius: 8, color: '#0f172a' }}>
+          <div
+            style={{
+              background: 'var(--accent-glow)',
+              padding: 8,
+              borderRadius: 8,
+              color: 'var(--accent)',
+              border: '1px solid rgba(2, 132, 199, 0.2)',
+            }}
+          >
             <Layers size={24} />
           </div>
           <div>
@@ -154,7 +162,7 @@ export default function App() {
               <tr key={f.period}>
                 <td style={{ fontWeight: 600 }}>{f.period}</td>
                 <td>{f.actual ? f.actual.toLocaleString() : '—'}</td>
-                <td style={{ color: '#38bdf8', fontWeight: 600 }}>{f.predicted.toLocaleString()}</td>
+                <td style={{ color: 'var(--accent)', fontWeight: 600 }}>{f.predicted.toLocaleString()}</td>
                 <td style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
                   {f.lower_bound.toLocaleString()} – {f.upper_bound.toLocaleString()}
                 </td>
