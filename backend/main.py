@@ -62,35 +62,35 @@ def get_metrics(category: Optional[str] = Query(None)):
     all_metrics = [
         MetricItem(
             id="m_1",
-            name="Total Throughput",
-            value=999999.0,
-            change_pct=12.4,
-            category="Operations",
-            unit="req/sec",
+            name="Solar Output",
+            value=284.5,
+            change_pct=9.5,
+            category="Renewable Generation",
+            unit="MW",
         ),
         MetricItem(
             id="m_2",
-            name="Prediction Accuracy",
-            value=98.65,
-            change_pct=1.8,
-            category="Machine Learning",
-            unit="%",
+            name="Wind Output",
+            value=512.3,
+            change_pct=-3.2,
+            category="Renewable Generation",
+            unit="MW",
         ),
         MetricItem(
             id="m_3",
-            name="Latency (P99)",
-            value=24.5,
-            change_pct=-8.2,
-            category="Performance",
-            unit="ms",
+            name="Battery Storage",
+            value=96.2,
+            change_pct=6.1,
+            category="Energy Storage",
+            unit="MWh",
         ),
         MetricItem(
             id="m_4",
-            name="Active Compute Nodes",
-            value=32.0,
-            change_pct=6.7,
-            category="Infrastructure",
-            unit="nodes",
+            name="CO₂ Avoided",
+            value=1240.0,
+            change_pct=14.2,
+            category="Sustainability",
+            unit="tCO₂",
         ),
     ]
     if category:
@@ -100,21 +100,21 @@ def get_metrics(category: Optional[str] = Query(None)):
 @app.get("/api/forecast", response_model=List[ForecastPoint], tags=["Analytics"])
 def get_forecast():
     return [
-        ForecastPoint(period="Jan", actual=12000, predicted=11800, lower_bound=11200, upper_bound=12400),
-        ForecastPoint(period="Feb", actual=14500, predicted=14200, lower_bound=13600, upper_bound=14800),
-        ForecastPoint(period="Mar", actual=16800, predicted=16500, lower_bound=15800, upper_bound=17200),
-        ForecastPoint(period="Apr", actual=19200, predicted=19000, lower_bound=18200, upper_bound=19800),
-        ForecastPoint(period="May", actual=22100, predicted=21900, lower_bound=21000, upper_bound=22800),
-        ForecastPoint(period="Jun", actual=None, predicted=25400, lower_bound=24100, upper_bound=26700),
-        ForecastPoint(period="Jul", actual=None, predicted=28900, lower_bound=27300, upper_bound=30500),
+        ForecastPoint(period="Jan", actual=18200, predicted=17800, lower_bound=16900, upper_bound=18700),
+        ForecastPoint(period="Feb", actual=20100, predicted=19600, lower_bound=18700, upper_bound=20500),
+        ForecastPoint(period="Mar", actual=24800, predicted=24200, lower_bound=23200, upper_bound=25200),
+        ForecastPoint(period="Apr", actual=27600, predicted=27100, lower_bound=26000, upper_bound=28200),
+        ForecastPoint(period="May", actual=30100, predicted=29600, lower_bound=28500, upper_bound=30700),
+        ForecastPoint(period="Jun", actual=None, predicted=31900, lower_bound=30500, upper_bound=33300),
+        ForecastPoint(period="Jul", actual=None, predicted=33600, lower_bound=32000, upper_bound=35200),
     ]
 
 @app.get("/api/analytics/summary", tags=["Analytics"])
 def get_analytics_summary():
     return {
         "status": "ok",
-        "total_requests": 999999,
-        "active_models": 12,
+        "total_energy_generated_mwh": 1240800,
+        "active_generators": 48,
         "system_health": 99.98,
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
