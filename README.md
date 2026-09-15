@@ -1,4 +1,4 @@
-﻿# CompassX Sample Test App
+# Manual Test Attempt 1
 
 A sample enterprise full-stack application built with **React** (Frontend) and **Python FastAPI** (Backend), designed to be deployed and managed via the **CompassX Apps Platform**.
 

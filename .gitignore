@@ -1,4 +1,4 @@
-﻿# Dependencies
+# Dependencies
 node_modules/
 .pnp/
 .pnp.js
@@ -28,3 +28,6 @@ yarn-error.log*
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Test / Temporary files
+mtime*
