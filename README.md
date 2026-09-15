@@ -1,4 +1,4 @@
-# Manual Test Attempt 1
+# Manual Test Attempt 1-1
 
 A sample enterprise full-stack application built with **React** (Frontend) and **Python FastAPI** (Backend), designed to be deployed and managed via the **CompassX Apps Platform**.
 
@@ -28,6 +28,7 @@ compassx-test-app/
 ## 🚀 Running Locally
 
 ### 1. Backend (FastAPI)
+
 ```bash
 cd backend
 python -m venv .venv
@@ -35,21 +36,26 @@ source .venv/bin/activate
 pip install -r requirements.txt
 python main.py
 ```
+
 Backend API will be running on `http://localhost:8080` (Interactive Swagger docs at `http://localhost:8080/docs`).
 
 ### 2. Frontend (React + Vite)
+
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
+
 Frontend will be running on `http://localhost:3000` and proxied to the backend.
 
 ---
 
 ## 🔗 CompassX App Configuration
+
 - **Repository URL**: `https://github.com/compassx-platform/compassx-test-app.git`
 - **Default Branch**: `main`
 - **Frontend Path**: `frontend`
 - **Backend Entrypoint**: `backend/main.py`
 - **Type**: `Web Application (React / Vite)`
+
